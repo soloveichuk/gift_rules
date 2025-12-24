@@ -1,0 +1,54 @@
+{% comment %}
+  Cart Gift Banner Block
+  
+  This block displays a gift banner that reacts to cart changes.
+  The banner will automatically update when items are added/removed from the cart.
+{% endcomment %}
+
+{% assign enable_rule_metafield = app.metafields.gift_rules.enable_rule %}
+{% assign min_cart_subtotal_metafield = app.metafields.gift_rules.min_cart_subtotal %}
+
+{% if enable_rule_metafield.value == 'true' %}
+  {% assign is_rule_enabled = true %}
+{% else %}
+  {% assign is_rule_enabled = false %}
+{% endif %}
+
+{% if min_cart_subtotal_metafield.value != blank %}
+  {% assign min_subtotal = min_cart_subtotal_metafield.value | plus: 0 %}
+{% else %}
+  {% assign min_subtotal = 0 %}
+{% endif %}
+
+{% comment %}
+  Calculate cart subtotal and eligibility
+{% endcomment %}
+{% assign min_subtotal_cents = min_subtotal | times: 100 %}
+{% assign cart_subtotal_cents = cart.total_price %}
+{% assign remaining_cents = 0 %}
+{% assign is_eligible = false %}
+
+{%- if cart_subtotal_cents >= min_subtotal_cents -%}
+  {% assign is_eligible = true %}
+{% else %}
+  {% assign remaining_cents = min_subtotal_cents | minus: cart_subtotal_cents %}
+{%- endif -%}
+
+{% if request.design_mode or is_rule_enabled %}
+  {% render 'gift-banner', 
+    is_eligible: is_eligible,
+    remaining_cents: remaining_cents,
+    min_subtotal: min_subtotal,
+    is_rule_enabled: is_rule_enabled
+  %}
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Gift Banner",
+  "target": "section",
+  "settings": [
+  ]
+}
+{% endschema %}

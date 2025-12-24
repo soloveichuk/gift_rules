@@ -1,28 +1,28 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "c76256bf338e501b466a833e9f063f33"
-name = "gift_rules"
-application_url = "https://example.com"
+client_id = "bee51b5838107d5277c2d4028b0a3005"
+name = "Custom Gift Rules"
+application_url = "https://resolved-clam-lightly.ngrok-free.app"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = true
-include_config_on_deploy = true
 
 [webhooks]
 api_version = "2026-01"
 
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
-
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "read_metaobjects,unauthenticated_read_checkouts,unauthenticated_read_metaobjects,unauthenticated_write_checkouts,write_app_proxy,write_metaobjects,write_products,write_discounts"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://resolved-clam-lightly.ngrok-free.app/auth/callback",
+  "https://resolved-clam-lightly.ngrok-free.app/auth/shopify/callback",
+  "https://resolved-clam-lightly.ngrok-free.app/api/auth/callback"
+]
+
+[app_proxy]
+url = "https://resolved-clam-lightly.ngrok-free.app"
+subpath = "embedded"
+prefix = "apps"

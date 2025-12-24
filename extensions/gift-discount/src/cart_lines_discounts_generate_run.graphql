@@ -1,0 +1,13 @@
+query CartInput {
+  cart {
+    lines {
+      id
+      isGift: attribute(key: "_is_gift") {
+        value
+      }
+    }
+  }
+  discount {
+    discountClasses
+  }
+}

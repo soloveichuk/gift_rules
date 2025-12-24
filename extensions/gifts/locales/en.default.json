@@ -1,0 +1,8 @@
+{
+  "gift": {
+    "banner": {
+      "eligible": "🎁 Gift will be added automatically",
+      "progress": "Add products worth {{ amount }} to get a gift"
+    }
+  }
+}

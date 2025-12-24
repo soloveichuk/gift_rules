@@ -1,0 +1,40 @@
+{% comment %}
+  Gift Banner
+  
+  Usage:
+  {% render 'gift-banner', 
+    is_eligible: is_eligible,
+    remaining_cents: remaining_cents
+    min_subtotal: min_subtotal
+    is_rule_enabled: is_rule_enabled
+  %}
+  
+  Variables:
+  - is_eligible: boolean - whether cart meets minimum requirement
+  - remaining_cents: number - remaining amount needed in cents
+  - min_subtotal: number - minimum subtotal
+  - is_rule_enabled: boolean - whether rule is enabled
+{% endcomment %}
+
+<gift-banner
+  min-subtotal="{{ min_subtotal | default: 0 }}"
+  is-rule-enabled="{{ is_rule_enabled | default: true }}"
+  eligible-text="{{ 'gift.banner.eligible' | t }}"
+  progress-text="{{ 'gift.banner.progress' | t }}"
+  {% if is_eligible %}is-eligible{% endif %}
+>
+  <div class="gift-banner__message">
+    <span class="gift-banner__text">
+      {% if is_eligible %}
+        {{ 'gift.banner.eligible' | t }}
+      {% else %}
+        {% assign remaining_money = remaining_cents | money %}
+        {{ 'gift.banner.progress' | t: amount: remaining_money }}
+      {% endif %}
+    </span>
+  </div>
+  <button type="button" class="gift-banner__apply-button" data-gift-apply-button>Apply Gift</button>
+</gift-banner>
+
+<link rel="stylesheet" href="{{ 'gift-banner.css' | asset_url }}">
+<script src="{{ 'gift-banner.js' | asset_url }}" defer></script>
